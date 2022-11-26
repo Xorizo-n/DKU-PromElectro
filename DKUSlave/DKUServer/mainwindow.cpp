@@ -16,10 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
     serv.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     serv.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     serv.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,40030,8);
+    QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,40025,13);
     QModbusDataUnitMap MyMap({{QModbusDataUnit::HoldingRegisters,checkData}});
     serv.setMap(MyMap);
-    qDebug() << serv.setData(QModbusDataUnit::HoldingRegisters,40030,00000001); // завести регистры с 40030 - 40037, data добавить в const
+    for (int i = 40025; i < 40038; i++)
+    {
+        qDebug() << serv.setData(QModbusDataUnit::HoldingRegisters,i,i);
+    }
     if(serv.connectDevice()) { qDebug() << "Connected"; }
     else {  qDebug() << "Device connection error"; }
 }

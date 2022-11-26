@@ -5,6 +5,7 @@
 #include <QModbusDataUnit>
 #include <QModbusReply>
 #include <QModbusPdu>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -18,8 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     client.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
     if(client.connectDevice()) { qDebug() << "Connected"; }
     else {  qDebug() << "Device connection error"; }
-    repl = client.sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,40030,1),0001);
-    connect(repl,&QModbusReply::finished,this,&MainWindow::check);
+    connect(&timer,&QTimer::timeout,this,&MainWindow::readrequest);
+    timer.start(1000); // реализовать singleshot таймер, привязанный в получению ответа от сервера
 }
 
 MainWindow::~MainWindow()
@@ -27,7 +28,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::check()
+void MainWindow::readrequest()
+{
+    repl = client.sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,40025,13),0001);
+    connect(repl,&QModbusReply::finished,this,&MainWindow::replyread);
+}
+
+void MainWindow::replyread()
 {
     if (repl->error() == QModbusDevice::NoError)
     {

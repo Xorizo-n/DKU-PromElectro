@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QModbusRtuSerialClient>
 #include <QModbusReply>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,8 +22,10 @@ private:
     Ui::MainWindow *ui;
     QModbusRtuSerialClient client;
     QModbusReply *repl;
+    QTimer timer;
 
 private slots:
-    void check();
+    void readrequest();
+    void replyread();
 };
 #endif // MAINWINDOW_H
