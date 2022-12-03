@@ -6,6 +6,7 @@
 #include <QModbusReply>
 #include <QModbusPdu>
 #include <QTimer>
+#include <ctime>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,10 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
     client.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     client.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     client.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    if(client.connectDevice()) { qDebug() << "Connected"; }
+    if(client.connectDevice()) { qDebug() << "Connected!"; }
     else {  qDebug() << "Device connection error"; }
-    connect(&timer,&QTimer::timeout,this,&MainWindow::readrequest);
-    timer.start(1000); // реализовать singleshot таймер, привязанный в получению ответа от сервера
+    //connect(&timer,&QTimer::timeout,this,&MainWindow::readrequest);
+    buff_time = 1000;
+    start_time = clock();
+    QTimer::singleShot(buff_time,this,&MainWindow::readrequest);
+    //timer.start(1000);
 }
 
 MainWindow::~MainWindow()
@@ -38,14 +42,18 @@ void MainWindow::replyread()
 {
     if (repl->error() == QModbusDevice::NoError)
     {
-        auto vivod = repl->result();
-        qDebug() << vivod.values();
+        finish_time = clock();
+        //auto vivod = repl->result();
+        qDebug() << repl->result().values();
+        qDebug() << "Request complete in" << finish_time - start_time - std::clock_t(buff_time) << "ms"; //считает ping?
+        QTimer::singleShot(buff_time,this,&MainWindow::readrequest);
+        start_time = clock();
     }
     else
     {
         qDebug() << repl->errorString();
-        auto a = repl->rawResult();
-        qDebug() << a.exceptionCode();
+        //auto a = repl->rawResult();
+        qDebug() << repl->rawResult().exceptionCode();
     }
     repl->deleteLater();
 }
