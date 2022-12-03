@@ -3,6 +3,7 @@
 #include <QModbusRtuSerialServer> // в верхнем уровне QModbusRtuSerialClient
 
 #include <QMainWindow>
+#include "dataemulator.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,5 +20,9 @@ public:
 private:
     Ui::MainWindow *ui;
     QModbusRtuSerialServer serv;
+    DataEmulator Emulator;
+
+private slots:
+    void onchangeaddress();
 };
 #endif // MAINWINDOW_H
