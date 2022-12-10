@@ -43,10 +43,14 @@ void MainWindow::replyread()
     if (repl->error() == QModbusDevice::NoError)
     {
         finish_time = clock();
-        qDebug() << repl->result().values();
+        QList registr = repl->result().values();
         qDebug() << "Request complete in" << finish_time - start_time - std::clock_t(buff_time) << "ms"; //считает ping?
         QTimer::singleShot(buff_time,this,&MainWindow::readrequest);
         start_time = clock();
+        quint16 speed = registr[6];
+        float realspeed = 928.8/speed;
+        QString RS = QString::number(realspeed);
+        ui->Speed_in->setText(RS);
     }
     else
     {
@@ -55,5 +59,7 @@ void MainWindow::replyread()
         qDebug() << repl->rawResult().exceptionCode();
     }
     repl->deleteLater();
+
+
 }
 
