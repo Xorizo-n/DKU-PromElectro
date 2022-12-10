@@ -43,7 +43,6 @@ void MainWindow::replyread()
     if (repl->error() == QModbusDevice::NoError)
     {
         finish_time = clock();
-        //auto vivod = repl->result();
         qDebug() << repl->result().values();
         qDebug() << "Request complete in" << finish_time - start_time - std::clock_t(buff_time) << "ms"; //считает ping?
         QTimer::singleShot(buff_time,this,&MainWindow::readrequest);

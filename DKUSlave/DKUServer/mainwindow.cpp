@@ -28,13 +28,21 @@ MainWindow::MainWindow(QWidget *parent)
     Emulator.setaddress(1); //добавить реакцию на смену данных у 40025 регистра
 }
 
+void MainWindow::onchangeaddress()
+{
+    serv.setServerAddress(Emulator.getaddress());
+}
+
+void MainWindow::datarecieved(QModbusDataUnit::RegisterType table, int address, int size)
+{
+    quint16 n_adr;
+    if(serv.data(table, address, &n_adr)) { Emulator.setaddress(n_adr); }
+    else { qDebug() << "Not recieved!"; }
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::onchangeaddress()
-{
-    serv.setServerAddress(Emulator.getaddress());
-}
 

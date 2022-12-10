@@ -24,5 +24,6 @@ private:
 
 private slots:
     void onchangeaddress();
+    void datarecieved(QModbusDataUnit::RegisterType table, int address, int size);
 };
 #endif // MAINWINDOW_H

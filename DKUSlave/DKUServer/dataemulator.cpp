@@ -3,7 +3,7 @@
 
 DataEmulator::DataEmulator(QObject *parent)
     :QObject{parent},
-     sensor_address{119}
+      sensor_address{119}, axis{0}
 
 {
 
@@ -22,4 +22,14 @@ void DataEmulator::setaddress(quint16 newaddress)
 quint16 DataEmulator::getaddress()
 {
     return sensor_address;
+}
+
+quint16 DataEmulator::getaxis()
+{
+    return axis;
+}
+
+quint16 DataEmulator::getlastspeed()
+{
+    return last_speed;
 }
