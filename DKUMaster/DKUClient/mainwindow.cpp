@@ -49,8 +49,10 @@ void MainWindow::replyread()
         start_time = clock();
         quint16 speed = registr[6];
         float realspeed = 928.8/speed;
-        QString RS = QString::number(realspeed);
-        ui->Speed_in->setText(RS);
+        ui->Speed_in->setText(QString::number(realspeed));
+        ui->Speedom->setValue(realspeed);
+        quint16 axis = registr[5];
+        ui->axis_counter->setText(QString::number(axis));
     }
     else
     {

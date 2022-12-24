@@ -25,5 +25,8 @@ private:
 private slots:
     void onchangeaddress();
     void datarecieved(QModbusDataUnit::RegisterType table, int address, int size);
+    //начинаются слоты для пользовательского интерфейса
+    void on_Speed_Change(const QString &text);
+    void on_Axis_Change(const QString &text);
 };
 #endif // MAINWINDOW_H
