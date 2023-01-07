@@ -1,10 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qcheckbox.h"
 #include <QMainWindow>
 #include <QModbusRtuSerialClient>
 #include <QModbusReply>
 #include <QTimer>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,6 +28,7 @@ private:
     std::clock_t start_time;
     std::clock_t finish_time;
     int buff_time;
+    std::vector<QCheckBox*> checks;
 
 private slots:
     void readrequest();

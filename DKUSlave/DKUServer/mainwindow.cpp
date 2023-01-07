@@ -5,6 +5,7 @@
 #include <QModbusDataUnit>
 #include <QMap>
 #include <limits>
+#include <bitset>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,16 +20,25 @@ MainWindow::MainWindow(QWidget *parent)
     QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,40025,13);
     QModbusDataUnitMap MyMap({{QModbusDataUnit::HoldingRegisters,checkData}});
     serv.setMap(MyMap);
-    for (int i = 40025; i < 40038; i++)
-    {
-        qDebug() << serv.setData(QModbusDataUnit::HoldingRegisters,i,i);
-    }
     if(serv.connectDevice()) { qDebug() << "Connected"; }
     else {  qDebug() << "Device connection error"; }
     connect(&Emulator, &DataEmulator::addresschanged, this, &MainWindow::onchangeaddress);
     connect(ui->speedEdit, &QLineEdit::textEdited, this, &MainWindow::on_Speed_Change);
     connect(ui->axis_amount, &QLineEdit::textEdited, this, &MainWindow::on_Axis_Change);
-    Emulator.setaddress(1); //добавить реакцию на смену данных у 40025 регистра
+    connect(ui->r32_0, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_1, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_2, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_3, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_4, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_8, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_9, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_10, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_11, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_12, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_13, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_14, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(ui->r32_15, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    Emulator.setaddress(1);
 }
 
 void MainWindow::onchangeaddress()
@@ -74,9 +84,30 @@ void MainWindow::on_Axis_Change(const QString &text)
     }
 }
 
+void MainWindow::on_r32_Request()
+{
+    std::bitset<16> n_r32;
+    if (ui->r32_0->isChecked()) { n_r32.set(0); }
+    if (ui->r32_1->isChecked()) { n_r32.set(1); }
+    if (ui->r32_2->isChecked()) { n_r32.set(2); }
+    if (ui->r32_3->isChecked()) { n_r32.set(3); }
+    if (ui->r32_4->isChecked()) { n_r32.set(4); }
+    if (ui->r32_8->isChecked()) { n_r32.set(8); }
+    if (ui->r32_9->isChecked()) { n_r32.set(9); }
+    if (ui->r32_10->isChecked()) { n_r32.set(10); }
+    if (ui->r32_11->isChecked()) { n_r32.set(11); }
+    if (ui->r32_12->isChecked()) { n_r32.set(12); }
+    if (ui->r32_13->isChecked()) { n_r32.set(13); }
+    if (ui->r32_14->isChecked()) { n_r32.set(14); }
+    if (ui->r32_15->isChecked()) { n_r32.set(15); }
+    serv.setData(QModbusDataUnit::HoldingRegisters,40032,n_r32.to_ulong());
+    qDebug() << n_r32.to_ulong();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 

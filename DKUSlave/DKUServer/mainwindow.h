@@ -28,5 +28,6 @@ private slots:
     //начинаются слоты для пользовательского интерфейса
     void on_Speed_Change(const QString &text);
     void on_Axis_Change(const QString &text);
+    void on_r32_Request();
 };
 #endif // MAINWINDOW_H
