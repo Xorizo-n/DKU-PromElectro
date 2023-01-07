@@ -9,24 +9,23 @@
 #include <ctime>
 #include <bitset>
 #include <vector>
+#include <QSerialPortInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    client.setConnectionParameter(QModbusDevice::SerialPortNameParameter,"COM4");
+    auto ports = QSerialPortInfo::availablePorts();
+    for (const auto& port: ports)
+    {
+        ui->comports->addItem(port.portName());
+    }
     client.setConnectionParameter(QModbusDevice::SerialParityParameter,QSerialPort::EvenParity);
     client.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     client.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     client.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    if(client.connectDevice()) { qDebug() << "Connected!"; }
-    else {  qDebug() << "Device connection error"; }
-    //connect(&timer,&QTimer::timeout,this,&MainWindow::readrequest);
     buff_time = 1000;
-    start_time = clock();
-    QTimer::singleShot(buff_time, this, &MainWindow::readrequest);
-    //timer.start(1000);
     checks.resize(16);
     checks[0] = ui->r32_0;
     checks[1] = ui->r32_1;
@@ -87,5 +86,18 @@ void MainWindow::replyread()
         qDebug() << repl->rawResult().exceptionCode();
     }
     repl->deleteLater();
+}
+
+
+void MainWindow::on_connect_clicked()
+{
+    client.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
+    if(client.connectDevice())
+    {
+        qDebug() << "Connected";
+        start_time = clock();
+        QTimer::singleShot(buff_time, this, &MainWindow::readrequest);
+    }
+    else {  qDebug() << "Device connection error"; }
 }
 

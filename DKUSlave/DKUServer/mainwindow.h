@@ -29,5 +29,6 @@ private slots:
     void on_Speed_Change(const QString &text);
     void on_Axis_Change(const QString &text);
     void on_r32_Request();
+    void on_connect_clicked();
 };
 #endif // MAINWINDOW_H

@@ -6,13 +6,18 @@
 #include <QMap>
 #include <limits>
 #include <bitset>
+#include <QSerialPortInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    serv.setConnectionParameter(QModbusDevice::SerialPortNameParameter,"COM3");
+    auto ports = QSerialPortInfo::availablePorts();
+    for (const auto& port: ports)
+    {
+        ui->comports->addItem(port.portName());
+    }
     serv.setConnectionParameter(QModbusDevice::SerialParityParameter,QSerialPort::EvenParity);
     serv.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     serv.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
@@ -20,8 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,40025,13);
     QModbusDataUnitMap MyMap({{QModbusDataUnit::HoldingRegisters,checkData}});
     serv.setMap(MyMap);
-    if(serv.connectDevice()) { qDebug() << "Connected"; }
-    else {  qDebug() << "Device connection error"; }
     connect(&Emulator, &DataEmulator::addresschanged, this, &MainWindow::onchangeaddress);
     connect(ui->speedEdit, &QLineEdit::textEdited, this, &MainWindow::on_Speed_Change);
     connect(ui->axis_amount, &QLineEdit::textEdited, this, &MainWindow::on_Axis_Change);
@@ -101,7 +104,6 @@ void MainWindow::on_r32_Request()
     if (ui->r32_14->isChecked()) { n_r32.set(14); }
     if (ui->r32_15->isChecked()) { n_r32.set(15); }
     serv.setData(QModbusDataUnit::HoldingRegisters,40032,n_r32.to_ulong());
-    qDebug() << n_r32.to_ulong();
 }
 
 MainWindow::~MainWindow()
@@ -110,4 +112,12 @@ MainWindow::~MainWindow()
 }
 
 
+
+
+void MainWindow::on_connect_clicked()
+{
+    serv.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
+    if(serv.connectDevice()) { qDebug() << "Connected"; }
+    else {  qDebug() << "Device connection error"; }
+}
 

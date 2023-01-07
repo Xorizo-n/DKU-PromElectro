@@ -33,5 +33,6 @@ private:
 private slots:
     void readrequest();
     void replyread();
+    void on_connect_clicked();
 };
 #endif // MAINWINDOW_H

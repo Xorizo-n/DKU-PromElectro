@@ -190,6 +190,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_11">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -203,6 +206,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_9">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -216,6 +222,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_3">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -229,6 +238,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_4">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -242,6 +254,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_10">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -255,6 +270,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_12">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -268,6 +286,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_8">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -281,6 +302,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_13">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -294,6 +318,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_2">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -307,6 +334,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_1">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -320,6 +350,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_15">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -333,6 +366,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_0">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -346,6 +382,9 @@ background-color: rgb(56, 56, 56);</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="r32_14">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -375,6 +414,32 @@ background-color: rgb(56, 56, 56);</string>
     </property>
     <property name="text">
      <string>Диагностика и эксплуатационные признаки:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="connect">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>130</y>
+      <width>91</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Подключить</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comports">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>130</y>
+      <width>151</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Выберите COM-порт</string>
     </property>
    </widget>
   </widget>
