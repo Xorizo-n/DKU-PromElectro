@@ -11,7 +11,7 @@ DataEmulator::DataEmulator(QObject *parent)
 
 void DataEmulator::setaddress(quint16 newaddress)
 {
-    if (newaddress <= 118 && newaddress >= 1)
+    if (newaddress <= 119 && newaddress >= 1)
     {
         sensor_address = newaddress;
         emit addresschanged();

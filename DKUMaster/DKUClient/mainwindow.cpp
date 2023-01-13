@@ -10,6 +10,7 @@
 #include <bitset>
 #include <vector>
 #include <QSerialPortInfo>
+#include <qcheckbox.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -40,6 +41,14 @@ MainWindow::MainWindow(QWidget *parent)
     checks[13] = ui->r32_13;
     checks[14] = ui->r32_14;
     checks[15] = ui->r32_15;
+    for (int i = 0; i<5; i++)
+    {
+        checks[i]->setCheckable(0);
+    }
+    for (int i = 8; i<16; i++)
+    {
+        checks[i]->setCheckable(0);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -49,7 +58,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::readrequest()
 {
-    repl = client.sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,40025,13),0001);
+    repl = client.sendReadRequest(QModbusDataUnit(QModbusDataUnit::HoldingRegisters,29,4),119);
     connect(repl, &QModbusReply::finished, this, &MainWindow::replyread);
 }
 
@@ -59,16 +68,16 @@ void MainWindow::replyread()
     {
         finish_time = clock();
         QList registr = repl->result().values();
-        qDebug() << "Request complete in" << finish_time - start_time - std::clock_t(buff_time) << "ms"; //считает ping?
+        qDebug() << "Request complete in" << finish_time - start_time - std::clock_t(buff_time) << "ms";
         QTimer::singleShot(buff_time, this, &MainWindow::readrequest);
         start_time = clock();
-        quint16 speed = registr[6];
+        quint16 axis = registr[0]; // rg30
+        ui->axis_counter->setText(QString::number(axis));
+        quint16 speed = registr[1]; // rg31
         float realspeed = 928.8/speed;
         ui->Speed_in->setText(QString::number(realspeed));
         ui->Speedom->setValue(realspeed);
-        quint16 axis = registr[5];
-        ui->axis_counter->setText(QString::number(axis));
-        std::bitset<16> r32bits = std::bitset<16>(registr[7]);
+        std::bitset<16> r32bits = std::bitset<16>(registr[2]); // rg32
         for (int i = 0; i<5; i++)
         {
             if (r32bits[i] == 1) { checks[i]->setChecked(1); }
@@ -84,6 +93,7 @@ void MainWindow::replyread()
     {
         qDebug() << repl->errorString();
         qDebug() << repl->rawResult().exceptionCode();
+        QTimer::singleShot(buff_time, this, &MainWindow::readrequest);
     }
     repl->deleteLater();
 }

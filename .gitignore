@@ -2,7 +2,6 @@
 *.out
 *.app
 DKUtemp/
-# DKUSlave/build*
 # C++ objects and libs
 *.slo
 *.lo

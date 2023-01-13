@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     serv.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     serv.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     serv.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,40025,13);
+    QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,29,4);
     QModbusDataUnitMap MyMap({{QModbusDataUnit::HoldingRegisters,checkData}});
     serv.setMap(MyMap);
     connect(&Emulator, &DataEmulator::addresschanged, this, &MainWindow::onchangeaddress);
@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->r32_13, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(ui->r32_14, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(ui->r32_15, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
-    Emulator.setaddress(1);
+    Emulator.setaddress(119);
 }
 
 void MainWindow::onchangeaddress()
@@ -63,7 +63,7 @@ void MainWindow::on_Speed_Change(const QString &text)
     if (ok)
     {
         speedpar = std::round(928.8/speedpar);
-        serv.setData(QModbusDataUnit::HoldingRegisters,40031,speedpar);
+        serv.setData(QModbusDataUnit::HoldingRegisters,30,speedpar);
         ui->speedEdit->setStyleSheet("border-width: 1px; border-style: solid; border-color: black;");
     }
     else
@@ -78,7 +78,7 @@ void MainWindow::on_Axis_Change(const QString &text)
     int axis = text.toInt(&ok);
     if (ok && axis <= std::numeric_limits<quint16>::max())
     {
-        serv.setData(QModbusDataUnit::HoldingRegisters,40030,axis);
+        serv.setData(QModbusDataUnit::HoldingRegisters,29,axis);
         ui->axis_amount->setStyleSheet("border-width: 1px; border-style: solid; border-color: black;");
     }
     else
@@ -103,7 +103,7 @@ void MainWindow::on_r32_Request()
     if (ui->r32_13->isChecked()) { n_r32.set(13); }
     if (ui->r32_14->isChecked()) { n_r32.set(14); }
     if (ui->r32_15->isChecked()) { n_r32.set(15); }
-    serv.setData(QModbusDataUnit::HoldingRegisters,40032,n_r32.to_ulong());
+    serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
 }
 
 MainWindow::~MainWindow()
