@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    startup_time = time_point_cast<duration<quint32,std::ratio<1,2000>>>(system_clock::now());
+    timer.start(1000);
     auto ports = QSerialPortInfo::availablePorts();
     for (const auto& port: ports)
     {
@@ -41,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->r32_13, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(ui->r32_14, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(ui->r32_15, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
+    connect(&timer, &QTimer::timeout, this, &MainWindow::on_timer_tick);
     Emulator.setaddress(119);
 }
 
@@ -118,6 +121,15 @@ void MainWindow::on_connect_clicked()
 {
     serv.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
     if(serv.connectDevice()) { qDebug() << "Connected"; }
-    else {  qDebug() << "Device connection error"; }
+    else { qDebug() << "Device connection error"; }
+}
+
+void MainWindow::on_timer_tick()
+{
+    time_point<system_clock, duration<quint32,std::ratio<1,2000>>> now = time_point_cast<duration<quint32,std::ratio<1,2000>>>(system_clock::now());
+    auto active_time = now - startup_time;
+    decltype(active_time)::rep temp = active_time.count();
+    serv.setData(QModbusDataUnit::HoldingRegisters,36,temp & 0xffff);
+    serv.setData(QModbusDataUnit::HoldingRegisters,37,temp>>16);
 }
 

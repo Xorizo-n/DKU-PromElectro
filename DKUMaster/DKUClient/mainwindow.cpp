@@ -27,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     client.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     client.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
     buff_time = 1000;
-    checks.resize(16);
-    checks[0] = ui->r32_0;
-    checks[1] = ui->r32_1;
+    checks.resize(15);
+    checks[0] = 0;
+    checks[1] = 0;
     checks[2] = ui->r32_2;
     checks[3] = ui->r32_3;
     checks[4] = ui->r32_4;
@@ -40,15 +40,14 @@ MainWindow::MainWindow(QWidget *parent)
     checks[12] = ui->r32_12;
     checks[13] = ui->r32_13;
     checks[14] = ui->r32_14;
-    checks[15] = ui->r32_15;
-    for (int i = 0; i<5; i++)
-    {
-        checks[i]->setCheckable(0);
-    }
-    for (int i = 8; i<16; i++)
-    {
-        checks[i]->setCheckable(0);
-    }
+    ui->zone_0->setVisible(0);
+    ui->zone_1->setVisible(0);
+    checks[3]->setVisible(0);
+    checks[4]->setVisible(0);
+    ui->positive_pass->setVisible(0);
+    ui->negative_pass->setVisible(0);
+    ui->slow_pass->setVisible(0);
+    ui->slow_pass->setStyleSheet("color: rgb(255, 0, 0)");
 }
 
 MainWindow::~MainWindow()
@@ -78,16 +77,26 @@ void MainWindow::replyread()
         ui->Speed_in->setText(QString::number(realspeed));
         ui->Speedom->setValue(realspeed);
         std::bitset<16> r32bits = std::bitset<16>(registr[2]); // rg32
-        for (int i = 0; i<5; i++)
+        if (r32bits[0] == 1) { ui->zone_0->setVisible(1); }
+        else { ui->zone_0->setVisible(0); }
+        if (r32bits[1] == 1) { ui->zone_1->setVisible(1); }
+        else { ui->zone_1->setVisible(0); }
+        for (int i = 2; i<5; i++)
         {
             if (r32bits[i] == 1) { checks[i]->setChecked(1); }
             else { checks[i]->setChecked(0); }
         }
-        for (int i = 8; i<16; i++)
+        for (int i = 8; i<15; i++)
         {
             if (r32bits[i] == 1) { checks[i]->setChecked(1); }
             else { checks[i]->setChecked(0); }
         }
+        if (checks[3]->isChecked()) { ui->positive_pass->setVisible(1); }
+        else { ui->positive_pass->setVisible(0); }
+        if (checks[4]->isChecked()) { ui->negative_pass->setVisible(1); }
+        else { ui->negative_pass->setVisible(0); }
+        if (r32bits[15] == 1) { ui->slow_pass->setVisible(1); }
+        else { ui->slow_pass->setVisible(0); }
     }
     else
     {

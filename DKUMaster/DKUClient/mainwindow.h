@@ -24,7 +24,6 @@ private:
     Ui::MainWindow *ui;
     QModbusRtuSerialClient client;
     QModbusReply *repl;
-    //QTimer timer;
     std::clock_t start_time;
     std::clock_t finish_time;
     int buff_time;
