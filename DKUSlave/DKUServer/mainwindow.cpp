@@ -24,10 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     serv.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     serv.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     serv.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,29,4);
+    QModbusDataUnit checkData(QModbusDataUnit::HoldingRegisters,29,8);
     QModbusDataUnitMap MyMap({{QModbusDataUnit::HoldingRegisters,checkData}});
     serv.setMap(MyMap);
-    connect(&Emulator, &DataEmulator::addresschanged, this, &MainWindow::onchangeaddress);
     connect(ui->speedEdit, &QLineEdit::textEdited, this, &MainWindow::on_Speed_Change);
     connect(ui->axis_amount, &QLineEdit::textEdited, this, &MainWindow::on_Axis_Change);
     connect(ui->r32_0, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
@@ -44,19 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->r32_14, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(ui->r32_15, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(&timer, &QTimer::timeout, this, &MainWindow::on_timer_tick);
-    Emulator.setaddress(119);
-}
-
-void MainWindow::onchangeaddress()
-{
-    serv.setServerAddress(Emulator.getaddress());
-}
-
-void MainWindow::datarecieved(QModbusDataUnit::RegisterType table, int address, int size)
-{
-    quint16 n_adr;
-    if(serv.data(table, address, &n_adr)) { Emulator.setaddress(n_adr); }
-    else { qDebug() << "Not recieved!"; }
 }
 
 void MainWindow::on_Speed_Change(const QString &text)
@@ -120,6 +106,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_connect_clicked()
 {
     serv.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
+    serv.setServerAddress(ui->sen_adr->text().toInt());
     if(serv.connectDevice()) { qDebug() << "Connected"; }
     else { qDebug() << "Device connection error"; }
 }
@@ -129,7 +116,7 @@ void MainWindow::on_timer_tick()
     time_point<system_clock, duration<quint32,std::ratio<1,2000>>> now = time_point_cast<duration<quint32,std::ratio<1,2000>>>(system_clock::now());
     auto active_time = now - startup_time;
     decltype(active_time)::rep temp = active_time.count();
-    serv.setData(QModbusDataUnit::HoldingRegisters,36,temp & 0xffff);
-    serv.setData(QModbusDataUnit::HoldingRegisters,37,temp>>16);
+    serv.setData(QModbusDataUnit::HoldingRegisters,35,temp & 0xffff);
+    serv.setData(QModbusDataUnit::HoldingRegisters,36,temp>>16);
 }
 

@@ -3,7 +3,6 @@
 #include <QModbusRtuSerialServer> // в верхнем уровне QModbusRtuSerialClient
 
 #include <QMainWindow>
-#include "dataemulator.h"
 #include <chrono>
 #include <ratio>
 #include <QTimer>
@@ -25,13 +24,10 @@ public:
 private:
     Ui::MainWindow *ui;
     QModbusRtuSerialServer serv;
-    DataEmulator Emulator;
     time_point<system_clock, duration<quint32,std::ratio<1,2000>>> startup_time;
     QTimer timer;
 
 private slots:
-    void onchangeaddress();
-    void datarecieved(QModbusDataUnit::RegisterType table, int address, int size);
     //начинаются слоты для пользовательского интерфейса
     void on_Speed_Change(const QString &text);
     void on_Axis_Change(const QString &text);

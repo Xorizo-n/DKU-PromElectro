@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>850</width>
-    <height>631</height>
+    <height>574</height>
    </rect>
   </property>
   <property name="font">
@@ -22,7 +22,7 @@
    <string>ДКУ-02 Клиент</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(30,100, 230);</string>
+   <string notr="true">background-color: rgb(50, 70, 160);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="Speed_in">
@@ -31,11 +31,16 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>650</x>
       <y>123</y>
       <width>91</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -87,11 +92,16 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>520</x>
       <y>123</y>
       <width>121</width>
       <height>41</height>
@@ -137,7 +147,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>470</x>
       <y>180</y>
       <width>301</width>
       <height>31</height>
@@ -204,8 +214,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>270</y>
+      <x>820</x>
+      <y>290</y>
       <width>61</width>
       <height>22</height>
      </rect>
@@ -225,8 +235,8 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>300</y>
+      <x>820</x>
+      <y>320</y>
       <width>61</width>
       <height>22</height>
      </rect>
@@ -394,6 +404,12 @@
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
      <string>Подключить</string>
     </property>
@@ -409,6 +425,7 @@
     </property>
     <property name="font">
      <font>
+      <pointsize>9</pointsize>
       <bold>false</bold>
      </font>
     </property>
@@ -420,7 +437,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>400</y>
+      <y>360</y>
       <width>71</width>
       <height>71</height>
      </rect>
@@ -447,7 +464,7 @@
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>400</y>
+      <y>360</y>
       <width>71</width>
       <height>71</height>
      </rect>
@@ -474,7 +491,7 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>470</y>
+      <y>430</y>
       <width>311</width>
       <height>20</height>
      </rect>
@@ -497,33 +514,51 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>500</y>
-      <width>41</width>
+      <x>510</x>
+      <y>460</y>
+      <width>71</width>
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
      <string>Зона 0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>500</y>
-      <width>41</width>
-      <height>16</height>
+      <x>650</x>
+      <y>460</y>
+      <width>71</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>Зона 1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>460</x>
       <y>220</y>
       <width>21</width>
       <height>21</height>
@@ -544,7 +579,7 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>740</x>
       <y>220</y>
       <width>51</width>
       <height>21</height>
@@ -566,7 +601,7 @@
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>370</y>
+      <y>330</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -574,6 +609,9 @@
     <property name="font">
      <font>
       <pointsize>14</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <strikeout>false</strikeout>
      </font>
     </property>
     <property name="text">
@@ -587,7 +625,7 @@
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>370</y>
+      <y>330</y>
       <width>81</width>
       <height>21</height>
      </rect>
@@ -595,6 +633,9 @@
     <property name="font">
      <font>
       <pointsize>14</pointsize>
+      <italic>false</italic>
+      <bold>true</bold>
+      <strikeout>false</strikeout>
      </font>
     </property>
     <property name="text">
@@ -608,7 +649,7 @@
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>530</y>
+      <y>490</y>
       <width>341</width>
       <height>20</height>
      </rect>
@@ -624,6 +665,48 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="tm_disp">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>270</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>270</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Метки времени (сек):</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="sen_adr">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>90</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>Введите адрес датчика</string>
     </property>
    </widget>
   </widget>
