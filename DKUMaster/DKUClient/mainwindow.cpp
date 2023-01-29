@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     client.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     client.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     client.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    buff_time = 1000;
+    buff_time = 150;
     checks.resize(15);
     checks[0] = 0;
     checks[1] = 0;
@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     checks[14] = ui->r32_14;
     ui->zone_0->setVisible(0);
     ui->zone_1->setVisible(0);
+    ui->zone_2->setVisible(0);
     checks[3]->setVisible(0);
     checks[4]->setVisible(0);
     ui->positive_pass->setVisible(0);
@@ -81,6 +82,13 @@ void MainWindow::replyread()
         else { ui->zone_0->setVisible(0); }
         if (r32bits[1] == 1) { ui->zone_1->setVisible(1); }
         else { ui->zone_1->setVisible(0); }
+        if (r32bits[0] == 1 && r32bits[1] == 1)
+        {
+            ui->zone_2->setVisible(1);
+            ui->zone_0->setVisible(0);
+            ui->zone_1->setVisible(0);
+        }
+        else { ui->zone_2->setVisible(0); }
         for (int i = 2; i<5; i++)
         {
             if (r32bits[i] == 1) { checks[i]->setChecked(1); }
