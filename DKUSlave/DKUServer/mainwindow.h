@@ -6,6 +6,7 @@
 #include <chrono>
 #include <ratio>
 #include <QTimer>
+#include "scriptdriver.h"
 
 using namespace std::chrono;
 
@@ -26,6 +27,8 @@ private:
     QModbusRtuSerialServer serv;
     time_point<system_clock, duration<quint32,std::ratio<1,2000>>> startup_time;
     QTimer timer;
+    ScriptDriver *driver;
+//    void trainPassing(int axis_amo, double v, double t, double a, bool direction);
 
 private slots:
     //начинаются слоты для пользовательского интерфейса
@@ -34,5 +37,6 @@ private slots:
     void on_r32_Request();
     void on_connect_clicked();
     void on_timer_tick();
+    void on_initialize_clicked();
 };
 #endif // MAINWINDOW_H

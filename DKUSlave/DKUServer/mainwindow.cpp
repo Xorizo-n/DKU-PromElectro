@@ -100,6 +100,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//void MainWindow::trainPassing(int axis_amo, double v, double t, double a, bool direction)
+//{
+//    double l = 9.72;
+//    v = v + a*t;
+//    if (v>200/3.6) { v = 200/3.6; }
+//    t = t + l/v;
+//    serv.setData(QModbusDataUnit::HoldingRegisters,30,std::round(928.8/(v*3.6)));
+//    if (direction)
+//    {
+//        ui->r32_3->setChecked(1);
+//        ui->r32_4->setChecked(0);
+//    }
+//    else
+//    {
+//        ui->r32_3->setChecked(0);
+//        ui->r32_4->setChecked(1);
+//    }
+//    axis_amo--;
+//    serv.setData(QModbusDataUnit::HoldingRegisters,29,);
+//    QTimer::singleShot(t*1000, this, &MainWindow::trainPassing(axis_amo,v,t,a,direction)); // не знаю как делать это с параметрами
+//}
+
 
 
 
@@ -118,5 +140,11 @@ void MainWindow::on_timer_tick()
     decltype(active_time)::rep temp = active_time.count();
     serv.setData(QModbusDataUnit::HoldingRegisters,35,temp & 0xffff);
     serv.setData(QModbusDataUnit::HoldingRegisters,36,temp>>16);
+}
+
+
+void MainWindow::on_initialize_clicked()
+{
+    driver = new ScriptDriver(ui->script_address->text()); // добавить проверку на дурака
 }
 
