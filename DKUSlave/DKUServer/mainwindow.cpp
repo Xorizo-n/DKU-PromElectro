@@ -7,6 +7,8 @@
 #include <limits>
 #include <bitset>
 #include <QSerialPortInfo>
+#include "events_data.h"
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -43,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->r32_14, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(ui->r32_15, &QCheckBox::stateChanged, this, &MainWindow::on_r32_Request);
     connect(&timer, &QTimer::timeout, this, &MainWindow::on_timer_tick);
+    ui->initialize->setEnabled(0);
 }
 
 void MainWindow::on_Speed_Change(const QString &text)
@@ -145,6 +148,64 @@ void MainWindow::on_timer_tick()
 
 void MainWindow::on_initialize_clicked()
 {
-    driver = new ScriptDriver(ui->script_address->text()); // добавить проверку на дурака
+    driver.reset(new ScriptDriver(ui->script_address->text()));
+    connect(driver.get(), &ScriptDriver::event_occured, this, &MainWindow::on_event_occured);
+    connect(driver.get(), &ScriptDriver::script_finished, this, &MainWindow::on_script_finished);
+    driver -> run();
+    ui->initialize->setEnabled(0);
+    ui->choose_file->setEnabled(0);
 }
+
+void MainWindow::on_event_occured(std::shared_ptr<event_base> e_data)
+{
+    if (e_data->event_type == "reg_edit")
+    {
+        auto temp = std::static_pointer_cast<reg_edit_event>(e_data);
+        for(auto t:temp->edited_registers)
+        {
+            serv.setData(QModbusDataUnit::HoldingRegisters,t.reg,t.new_value); // визуальный контроль добавить
+        }
+    }
+    else if (e_data->event_type == "train_passing")
+    {
+        if (!train_passing_comp)
+        {
+            auto temp = std::static_pointer_cast<train_passing_event>(e_data);
+            train_passing_comp.reset(new train_passing_compiler(temp));
+            connect(train_passing_comp.get(), &train_passing_compiler::axel_passed, this, &MainWindow::on_axel_passing);
+            train_passing_comp -> run();
+        }
+        else
+        {
+            train_passing_comp.reset();
+            driver.reset();
+            QMessageBox::warning(this, "Ошибка!", "Произошло наложение событий прохождения поезда.");
+        }
+    }
+}
+
+void MainWindow::on_script_finished()
+{
+    ui->initialize->setEnabled(1);
+    ui->choose_file->setEnabled(1);
+}
+
+
+void MainWindow::on_choose_file_clicked()
+{
+    ui->script_address->setText(QFileDialog::getOpenFileName(this, "Выберите файл скрипта...", QDir::currentPath())); // функция возвращающая тек-ий каталог процесса (найти)
+    if (ui->script_address->text() != "") { ui->initialize->setEnabled(1); } // найти способ вытащить директрию .exe файла - готово
+    else { ui->initialize->setEnabled(0); }
+}
+
+void MainWindow::on_axel_passing(float speed, train_passing_event::direction_type direction)
+{
+    serv.setData(QModbusDataUnit::HoldingRegisters,30,std::round(928.8/speed)); // добавить учет направления, производить подсчет осей
+}
+
+void MainWindow::on_train_pass_finished()
+{
+    train_passing_comp.reset();
+}
+
 

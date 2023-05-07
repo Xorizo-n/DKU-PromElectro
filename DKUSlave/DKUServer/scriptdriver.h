@@ -17,10 +17,12 @@ public:
     void run();
 private:
     QString file_name;
-    QVector<std::shared_ptr<reg_edit_event>> events;
-    int counter;
+    QVector<std::shared_ptr<event_base>> events;
+    QVector<train> trains;
+    int current_event_num;
 signals:
-
+    void event_occured(std::shared_ptr<event_base> e_data);
+    void script_finished();
 private slots:
     void emitter();
 };

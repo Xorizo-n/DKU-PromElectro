@@ -12,12 +12,14 @@ SOURCES += \
     events_data.cpp \
     main.cpp \
     mainwindow.cpp \
-    scriptdriver.cpp
+    scriptdriver.cpp \
+    train_passing_compiler.cpp
 
 HEADERS += \
     events_data.h \
     mainwindow.h \
-    scriptdriver.h
+    scriptdriver.h \
+    train_passing_compiler.h
 
 FORMS += \
     mainwindow.ui
