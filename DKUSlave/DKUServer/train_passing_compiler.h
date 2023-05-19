@@ -14,6 +14,8 @@ public:
 private:
     std::shared_ptr<train_passing_event> train_passing;
     float u;
+    int wagon_count;
+    int axis_count;
 signals:
     void axel_passed(float speed, train_passing_event::direction_type direction);
     void train_pass_finished(); // сигнал прохода поезда против наложения событий

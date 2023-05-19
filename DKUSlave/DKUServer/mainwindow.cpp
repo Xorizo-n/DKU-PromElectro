@@ -193,14 +193,32 @@ void MainWindow::on_script_finished()
 
 void MainWindow::on_choose_file_clicked()
 {
-    ui->script_address->setText(QFileDialog::getOpenFileName(this, "Выберите файл скрипта...", QDir::currentPath())); // функция возвращающая тек-ий каталог процесса (найти)
-    if (ui->script_address->text() != "") { ui->initialize->setEnabled(1); } // найти способ вытащить директрию .exe файла - готово
+    ui->script_address->setText(QFileDialog::getOpenFileName(this, "Выберите файл скрипта...", QDir::currentPath()));
+    if (ui->script_address->text() != "") { ui->initialize->setEnabled(1); }
     else { ui->initialize->setEnabled(0); }
 }
 
 void MainWindow::on_axel_passing(float speed, train_passing_event::direction_type direction)
 {
-    serv.setData(QModbusDataUnit::HoldingRegisters,30,std::round(928.8/speed)); // добавить учет направления, производить подсчет осей
+    serv.setData(QModbusDataUnit::HoldingRegisters,30,std::round(928.8/speed)); // добавить учет направления, производить подсчет осей - есть вопросы!
+    quint16 current_axis_amo;
+    serv.data(QModbusDataUnit::HoldingRegisters,29,&current_axis_amo);
+    quint16 r32_value;
+    serv.data(QModbusDataUnit::HoldingRegisters,31,&r32_value);
+    std::bitset<16> n_r32(r32_value);
+    if (direction == train_passing_event::forward)
+    {
+        n_r32.set(3);
+        n_r32.reset(4);
+        serv.setData(QModbusDataUnit::HoldingRegisters,29,current_axis_amo+1);
+    }
+    else
+    {
+        n_r32.set(4);
+        n_r32.reset(3);
+        serv.setData(QModbusDataUnit::HoldingRegisters,29,current_axis_amo-1);
+    }
+    serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
 }
 
 void MainWindow::on_train_pass_finished()
