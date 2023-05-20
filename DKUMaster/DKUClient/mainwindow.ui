@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>850</width>
+    <width>866</width>
     <height>574</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
    <string>ДКУ-02 Клиент</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(50, 70, 160);</string>
+   <string notr="true">background-color: rgb(33, 42, 62);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="Speed_in">
@@ -42,6 +42,10 @@
       <pointsize>11</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(203, 203, 203);
+border-color: rgb(255, 255, 255);</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -57,6 +61,9 @@
       <pointsize>14</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Счетчик осей:</string>
@@ -97,6 +104,9 @@
       <pointsize>11</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(200, 200, 200);</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
@@ -112,6 +122,9 @@
       <pointsize>14</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Скорость :</string>
@@ -133,6 +146,9 @@
       <bold>true</bold>
       <underline>false</underline>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>ДАТЧИК КОЛЕСА УНИФИЦИРОВАННЫЙ ДКУ-02</string>
@@ -183,6 +199,9 @@
       <pointsize>10</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Чувствительность ниже нормы</string>
     </property>
@@ -203,6 +222,9 @@
      <font>
       <pointsize>10</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Неисправность ДКУ</string>
@@ -267,6 +289,9 @@
       <pointsize>10</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Съем ДКУ</string>
     </property>
@@ -287,6 +312,9 @@
      <font>
       <pointsize>10</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Постороннее воздействие на ДКУ</string>
@@ -309,6 +337,9 @@
       <pointsize>10</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Начальная установка</string>
     </property>
@@ -329,6 +360,9 @@
      <font>
       <pointsize>10</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Наличие постороннего металла в зоне ДКУ</string>
@@ -351,6 +385,9 @@
       <pointsize>10</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Обратное направление счета</string>
     </property>
@@ -372,6 +409,9 @@
       <pointsize>10</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Отклонение сигналов генераторов от нормы</string>
     </property>
@@ -390,6 +430,9 @@
       <pointsize>13</pointsize>
       <bold>true</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>Диагностика и эксплуатационные признаки:</string>
@@ -410,6 +453,10 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(76, 95, 170);</string>
+    </property>
     <property name="text">
      <string>Подключить</string>
     </property>
@@ -428,6 +475,10 @@
       <pointsize>9</pointsize>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(117, 129, 182);</string>
     </property>
     <property name="placeholderText">
      <string>Выберите COM-порт</string>
@@ -502,7 +553,7 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(72, 72, 72);</string>
+     <string notr="true">color: rgb(208, 208, 208);</string>
     </property>
     <property name="text">
      <string>---------------------------------------------------------------------</string>
@@ -526,6 +577,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Зона 0</string>
     </property>
@@ -548,6 +602,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Зона 1</string>
     </property>
@@ -569,6 +626,9 @@
       <pointsize>13</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>0</string>
     </property>
@@ -589,6 +649,9 @@
      <font>
       <pointsize>13</pointsize>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>200</string>
@@ -660,6 +723,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Медленное движение колеса над датчиком!</string>
     </property>
@@ -675,6 +741,9 @@
       <width>131</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(186, 186, 186);</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_11">
@@ -692,6 +761,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>Метки времени (сек):</string>
     </property>
@@ -704,6 +776,9 @@
       <width>131</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(191, 191, 191);</string>
     </property>
     <property name="placeholderText">
      <string>Введите адрес датчика</string>
@@ -754,7 +829,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>850</width>
+     <width>866</width>
      <height>21</height>
     </rect>
    </property>
