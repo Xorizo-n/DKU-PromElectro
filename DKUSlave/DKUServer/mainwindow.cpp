@@ -186,6 +186,8 @@ void MainWindow::on_event_occured(std::shared_ptr<event_base> e_data)
 
 void MainWindow::on_script_finished()
 {
+    train_passing_comp.reset();
+    driver.reset();
     ui->initialize->setEnabled(1);
     ui->choose_file->setEnabled(1);
 }

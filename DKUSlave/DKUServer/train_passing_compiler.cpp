@@ -46,7 +46,7 @@ void train_passing_compiler::on_timer_finish()
         else
         {
             axis_count = -1;
-            s0 = train_passing->train_type.wagons[wagon_count].l_from_rear/1000;
+            s0 = train_passing->train_type.wagons[wagon_count].l_from_rear/1000 + train_passing->train_type.wagons[wagon_count+1].l_from_front/1000;
             wagon_count++;
         }
     }
