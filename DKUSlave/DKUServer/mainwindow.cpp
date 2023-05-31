@@ -103,31 +103,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//void MainWindow::trainPassing(int axis_amo, double v, double t, double a, bool direction)
-//{
-//    double l = 9.72;
-//    v = v + a*t;
-//    if (v>200/3.6) { v = 200/3.6; }
-//    t = t + l/v;
-//    serv.setData(QModbusDataUnit::HoldingRegisters,30,std::round(928.8/(v*3.6)));
-//    if (direction)
-//    {
-//        ui->r32_3->setChecked(1);
-//        ui->r32_4->setChecked(0);
-//    }
-//    else
-//    {
-//        ui->r32_3->setChecked(0);
-//        ui->r32_4->setChecked(1);
-//    }
-//    axis_amo--;
-//    serv.setData(QModbusDataUnit::HoldingRegisters,29,);
-//    QTimer::singleShot(t*1000, this, &MainWindow::trainPassing(axis_amo,v,t,a,direction)); // не знаю как делать это с параметрами
-//}
-
-
-
-
 void MainWindow::on_connect_clicked()
 {
     serv.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
@@ -173,6 +148,7 @@ void MainWindow::on_event_occured(std::shared_ptr<event_base> e_data)
             auto temp = std::static_pointer_cast<train_passing_event>(e_data);
             train_passing_comp.reset(new train_passing_compiler(temp));
             connect(train_passing_comp.get(), &train_passing_compiler::axel_passed, this, &MainWindow::on_axel_passing);
+            connect(train_passing_comp.get(), &train_passing_compiler::train_pass_finished, this, &MainWindow::on_train_pass_finished);
             train_passing_comp -> run();
         }
         else
@@ -186,7 +162,6 @@ void MainWindow::on_event_occured(std::shared_ptr<event_base> e_data)
 
 void MainWindow::on_script_finished()
 {
-    train_passing_comp.reset();
     driver.reset();
     ui->initialize->setEnabled(1);
     ui->choose_file->setEnabled(1);
@@ -202,7 +177,8 @@ void MainWindow::on_choose_file_clicked()
 
 void MainWindow::on_axel_passing(float speed, train_passing_event::direction_type direction)
 {
-    serv.setData(QModbusDataUnit::HoldingRegisters,30,std::round(928.8/speed)); // добавить учет направления, производить подсчет осей - есть вопросы!
+    quint16 speed_parm = std::round(928.8/speed);
+    serv.setData(QModbusDataUnit::HoldingRegisters,30,speed_parm); // добавить учет направления, производить подсчет осей - есть вопросы!
     quint16 current_axis_amo;
     serv.data(QModbusDataUnit::HoldingRegisters,29,&current_axis_amo);
     quint16 r32_value;

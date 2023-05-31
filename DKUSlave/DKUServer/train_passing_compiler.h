@@ -16,6 +16,7 @@ private:
     float u;
     int wagon_count;
     int axis_count;
+    void par_calc();
 signals:
     void axel_passed(float speed, train_passing_event::direction_type direction);
     void train_pass_finished(); // сигнал прохода поезда против наложения событий
