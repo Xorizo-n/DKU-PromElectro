@@ -48,5 +48,13 @@ struct train_passing_event:public event_base
     ~train_passing_event();
 };
 
+struct sensor
+{
+    float zone0_start;
+    float zone0_finish;
+    float zone1_start;
+    float zone1_finish;
+    float sen_len;
+};
 
 #endif // EVENTS_DATA_H

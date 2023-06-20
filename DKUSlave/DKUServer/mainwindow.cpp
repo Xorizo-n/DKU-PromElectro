@@ -68,7 +68,7 @@ void MainWindow::on_Axis_Change(const QString &text)
 {
     bool ok;
     int axis = text.toInt(&ok);
-    if (ok && axis <= std::numeric_limits<quint16>::max())
+    if (ok && axis <= 1023 && axis >= 0)
     {
         serv.setData(QModbusDataUnit::HoldingRegisters,29,axis);
         ui->axis_amount->setStyleSheet("border-width: 1px; border-style: solid; border-color: black;");
@@ -149,6 +149,10 @@ void MainWindow::on_event_occured(std::shared_ptr<event_base> e_data)
             train_passing_comp.reset(new train_passing_compiler(temp));
             connect(train_passing_comp.get(), &train_passing_compiler::axel_passed, this, &MainWindow::on_axel_passing);
             connect(train_passing_comp.get(), &train_passing_compiler::train_pass_finished, this, &MainWindow::on_train_pass_finished);
+            connect(train_passing_comp.get(), &train_passing_compiler::wheel_zone0_enter, this, &MainWindow::wheel_zone0_enter);
+            connect(train_passing_comp.get(), &train_passing_compiler::wheel_zone1_enter, this, &MainWindow::wheel_zone1_enter);
+            connect(train_passing_comp.get(), &train_passing_compiler::wheel_zone0_exit, this, &MainWindow::wheel_zone0_exit);
+            connect(train_passing_comp.get(), &train_passing_compiler::wheel_zone1_exit, this, &MainWindow::wheel_zone1_exit);
             train_passing_comp -> run();
         }
         else
@@ -178,7 +182,7 @@ void MainWindow::on_choose_file_clicked()
 void MainWindow::on_axel_passing(float speed, train_passing_event::direction_type direction)
 {
     quint16 speed_parm = std::round(928.8/speed);
-    serv.setData(QModbusDataUnit::HoldingRegisters,30,speed_parm); // добавить учет направления, производить подсчет осей - есть вопросы!
+    serv.setData(QModbusDataUnit::HoldingRegisters,30,speed_parm);
     quint16 current_axis_amo;
     serv.data(QModbusDataUnit::HoldingRegisters,29,&current_axis_amo);
     quint16 r32_value;
@@ -188,13 +192,15 @@ void MainWindow::on_axel_passing(float speed, train_passing_event::direction_typ
     {
         n_r32.set(3);
         n_r32.reset(4);
-        serv.setData(QModbusDataUnit::HoldingRegisters,29,current_axis_amo+1);
+        if (current_axis_amo == 1023) { serv.setData(QModbusDataUnit::HoldingRegisters,29,0); }
+        else { serv.setData(QModbusDataUnit::HoldingRegisters,29,current_axis_amo+1); }
     }
     else
     {
         n_r32.set(4);
         n_r32.reset(3);
-        serv.setData(QModbusDataUnit::HoldingRegisters,29,current_axis_amo-1);
+        if (current_axis_amo == 0) { serv.setData(QModbusDataUnit::HoldingRegisters,29,1023); }
+        else { serv.setData(QModbusDataUnit::HoldingRegisters,29,current_axis_amo-1); }
     }
     serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
 }
@@ -203,5 +209,41 @@ void MainWindow::on_train_pass_finished()
 {
     train_passing_comp.reset();
 }
+
+void MainWindow::wheel_zone1_enter()
+{
+    quint16 r32_value;
+    serv.data(QModbusDataUnit::HoldingRegisters,31,&r32_value);
+    std::bitset<16> n_r32(r32_value);
+    n_r32.set(1);
+    serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
+}
+
+void MainWindow::wheel_zone1_exit()
+{
+    quint16 r32_value;
+    serv.data(QModbusDataUnit::HoldingRegisters,31,&r32_value);
+    std::bitset<16> n_r32(r32_value);
+    n_r32.reset(1);
+    serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
+}
+
+void MainWindow::wheel_zone0_enter()
+{
+    quint16 r32_value;
+    serv.data(QModbusDataUnit::HoldingRegisters,31,&r32_value);
+    std::bitset<16> n_r32(r32_value);
+    n_r32.set(0);
+    serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
+}
+
+void MainWindow::wheel_zone0_exit()
+{
+    quint16 r32_value;
+    serv.data(QModbusDataUnit::HoldingRegisters,31,&r32_value);
+    std::bitset<16> n_r32(r32_value);
+    n_r32.reset(0);
+    serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
+} // доделать остальные зоны
 
 

@@ -46,5 +46,9 @@ private slots:
     void on_choose_file_clicked();
     void on_axel_passing(float speed, train_passing_event::direction_type direction);
     void on_train_pass_finished(); // доделать
+    void wheel_zone1_enter();
+    void wheel_zone1_exit();
+    void wheel_zone0_enter();
+    void wheel_zone0_exit();
 };
 #endif // MAINWINDOW_H

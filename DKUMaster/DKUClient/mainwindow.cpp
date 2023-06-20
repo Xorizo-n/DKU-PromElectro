@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     client.setConnectionParameter(QModbusDevice::SerialBaudRateParameter,38400);
     client.setConnectionParameter(QModbusDevice::SerialDataBitsParameter,QSerialPort::Data8);
     client.setConnectionParameter(QModbusDevice::SerialStopBitsParameter,QSerialPort::OneStop);
-    buff_time = 150;
+    buff_time = 50;
     checks.resize(15);
     checks[0] = 0;
     checks[1] = 0;
