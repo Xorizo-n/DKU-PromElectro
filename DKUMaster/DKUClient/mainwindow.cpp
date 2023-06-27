@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
     ui->setupUi(this);
     auto ports = QSerialPortInfo::availablePorts();
     for (const auto& port: ports)
@@ -123,7 +124,8 @@ void MainWindow::on_connect_clicked()
     client.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
     if(client.connectDevice())
     {
-        qDebug() << "Connected";
+        ui->connect->setText("Подключено!");
+        ui->connect->setStyleSheet("color: rgb(30, 89, 69)");
         start_time = clock();
         QTimer::singleShot(buff_time, this, &MainWindow::readrequest);
     }

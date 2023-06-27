@@ -107,7 +107,11 @@ void MainWindow::on_connect_clicked()
 {
     serv.setConnectionParameter(QModbusDevice::SerialPortNameParameter,ui->comports->currentText());
     serv.setServerAddress(ui->sen_adr->text().toInt());
-    if(serv.connectDevice()) { qDebug() << "Connected"; }
+    if(serv.connectDevice())
+    {
+        ui->connect->setText("Подключено!");
+        ui->connect->setStyleSheet("color: rgb(30, 89, 69)");
+    }
     else { qDebug() << "Device connection error"; }
 }
 
@@ -244,6 +248,6 @@ void MainWindow::wheel_zone0_exit()
     std::bitset<16> n_r32(r32_value);
     n_r32.reset(0);
     serv.setData(QModbusDataUnit::HoldingRegisters,31,n_r32.to_ulong());
-} // доделать остальные зоны
+}
 
 
